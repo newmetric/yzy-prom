@@ -17,7 +17,7 @@ macro_rules! define_counter_functions {
 macro_rules! define_counter_vec_functions {
     ( $name:ident, $value:expr, $label:expr ) => {
         ::paste::paste! {
-            pub async fn [<increment_ $name _countervec>](labels: Vec<&'static str>) {
+            pub async fn [<increment_ $name _countervec>](labels: Vec<String>) {
                 use ::yzy_prom::manager::command::PromCommand;
                 let _ = COMMAND_TX.get().await.clone().send(PromCommand::IncreaseCounterVec(stringify!($name), labels)).await.unwrap();
                 //TODO: make error propagate to the user
@@ -54,13 +54,13 @@ macro_rules! define_gauge_functions {
 macro_rules! define_gauge_vec_functions {
     ( $name:ident, $value:expr, $label:expr ) => {
         ::paste::paste! {
-            pub async fn [<set $name _gaugevec>](labels: Vec<&'static str>) {
+            pub async fn [<set $name _gaugevec>](labels: Vec<String>) {
                 use ::yzy_prom::manager::command::PromCommand;
                 let _ = COMMAND_TX.get().await.clone().send(PromCommand::SetGaugeVec(stringify!($name), labels)).await.unwrap();
                 //TODO: make error propagate to the user
             }
 
-            pub async fn [<get $name _gaugevec>](labels: Vec<&'static str>) -> f64 {
+            pub async fn [<get $name _gaugevec>](labels: Vec<String>) -> f64 {
                 use ::yzy_prom::manager::command::PromCommand;
                 use tokio::sync::oneshot::channe;
                 let (tx, rx) = channel();
@@ -91,13 +91,13 @@ macro_rules! define_histogram_functions {
 macro_rules! define_histogram_vec_functions {
     ( $name:ident, $value:expr, $label:expr ) => {
         ::paste::paste! {
-            pub async fn [<observe $name _histogramvec>](labels: Vec<&'static str>, value: f64) {
+            pub async fn [<observe $name _histogramvec>](labels: Vec<String>, value: f64) {
                 use ::yzy_prom::manager::command::PromCommand;
                 let _ = COMMAND_TX.get().await.clone().send(PromCommand::ObserveHistogramVec(stringify!($name), labels, value)).await.unwrap();
                 //TODO: make error propagate to the user
             }
 
-            pub async fn [<get $name _histogramvec>](labels: Vec<&'static str>) -> f64 {
+            pub async fn [<get $name _histogramvec>](labels: Vec<String>) -> f64 {
                 use ::yzy_prom::manager::command::PromCommand;
                 use tokio::sync::oneshot::channe;
                 let (tx, rx) = channel();

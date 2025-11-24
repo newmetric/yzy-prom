@@ -15,7 +15,8 @@ pub(super) fn handle_command(m: &mut PromManager, c: PromCommand) {
             let counter_vec = m.counter_vecs.get(name);
             match counter_vec {
                 Some(counter_vec) => {
-                    counter_vec.with_label_values(&items).inc();
+                    let strs: Vec<&str> = items.iter().map(|x| x.as_str()).collect();
+                    counter_vec.with_label_values(&strs).inc();
                 }
                 None => {}
             }
@@ -45,7 +46,8 @@ pub(super) fn handle_command(m: &mut PromManager, c: PromCommand) {
             let gauge_vec = m.gauge_vecs.get(name);
             match gauge_vec {
                 Some(gauge_vec) => {
-                    gauge_vec.with_label_values(&items).set(value);
+                    let strs: Vec<&str> = items.iter().map(|x| x.as_str()).collect();
+                    gauge_vec.with_label_values(&strs).set(value);
                 }
                 None => {}
             }
@@ -54,7 +56,8 @@ pub(super) fn handle_command(m: &mut PromManager, c: PromCommand) {
             let gauge_vec = m.gauge_vecs.get(name);
             match gauge_vec {
                 Some(gauge_vec) => {
-                    let v = gauge_vec.with_label_values(&items).get();
+                    let strs: Vec<&str> = items.iter().map(|x| x.as_str()).collect();
+                    let v = gauge_vec.with_label_values(&strs).get();
                     let _ = sender.send(v);
                 }
                 None => {
@@ -76,7 +79,8 @@ pub(super) fn handle_command(m: &mut PromManager, c: PromCommand) {
             let histogram_vec = m.histogram_vecs.get(name);
             match histogram_vec {
                 Some(histogram_vec) => {
-                    histogram_vec.with_label_values(&items).observe(value);
+                    let strs: Vec<&str> = items.iter().map(|x| x.as_str()).collect();
+                    histogram_vec.with_label_values(&strs).observe(value);
                 }
                 None => {}
             }
