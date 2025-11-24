@@ -2,6 +2,10 @@
 name = "yzy-prom"
 version = "0.1.0"
 edition = "2024"
+license = "MIT"
+authors = ["0x0f0d0 <goodbumsu@gmail.com>"]
+description = "A macro crate for defining prometheus metrics"
+repository = "https://github.com/newmetric/yzy-prom"
 
 [dependencies]
 anyhow = "1.0.100"
