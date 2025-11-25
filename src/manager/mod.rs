@@ -49,7 +49,7 @@ pub async fn init_prometheus(
     histograms: Option<&HashMap<&'static str, &'static str>>,
     histogram_vecs: Option<&HashMap<&'static str, (&'static str, Vec<&'static str>)>>,
 ) -> anyhow::Result<Sender<PromCommand>> {
-    let addr = "127.0.0.1:9090";
+    let addr = "0.0.0.0:9090";
     let mut manager = get_manager();
 
     match counters {
